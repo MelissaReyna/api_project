@@ -13,7 +13,7 @@ $(document).ready(function() {
             method: 'GET',
             headers: {
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
-                'X-RapidAPI-Key': '7aa077f2b9msh45774d4728e2637p1ec486jsn783fc858bb17'
+                'X-RapidAPI-Key': 'API_KEY'
             }
         });
     }
