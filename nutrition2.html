@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Data -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="authors" content="Melissa Reyna, Luis Compean, Lucas Araujo" />
+    <meta name="description" content="B-Fit: Fitness and wellness tracker website" />
+
+    <!-- Title -->
+    <title>B-Fit</title>
+
+    <!-- CSS styling method -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Nutrition Information</h1>
+        <form id="food-form">
+            <div class="form-group">
+                <label for="food-input">Enter food item:</label>
+                <input type="text" id="food-input" class="form-control" placeholder="e.g., apple">
+            </div>
+            <button type="submit" class="btn btn-primary">Get Nutrition Info</button>
+        </form>
+        <div id="nutrition"></div>
+    </div>
+    
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/nutritionix2.js"></script>
+    
+</body>
+</html>
