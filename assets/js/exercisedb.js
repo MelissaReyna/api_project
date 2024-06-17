@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: {
                 lat: lat,
                 lon: lon,
-                appid: 'e7a622538715dc590c381df263f61828',
+                appid: 'API_KEY',
                 units: 'metric'
             }
         });
