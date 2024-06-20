@@ -742,16 +742,16 @@ img {
 .weather-container {
     display: flex;
     align-items: center;
-    margin-bottom: 20px; /* Adjust margin as needed */
+    margin-bottom: 20px;
 }
 
 .weather-icon {
-    font-size: 4rem; /* Adjust icon size as needed */
-    margin-right: 20px; /* Adjust margin between icon and info */
+    font-size: 4rem;
+    margin-right: 20px;
 }
 
 .weather-info {
-    flex: 1; /* Take remaining space */
+    flex: 1;
 }
 
 .alert-info{
