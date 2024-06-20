@@ -392,8 +392,45 @@ img {
     color: var(--title-color);
 }
 
+.exercise_card {
+    display: grid;
+    background-color: #a5a99e12;
+    padding: 1.5rem 2rem;
+    border: 2px solid transparent;
+    transition: background .5s, border .4s;
+    border-radius: 0.5rem;
+    width: 50%;
+    
+}
+
+.exercise_card:hover {
+    background-color: var(--first-color);
+    border: 2px solid var(--first-color-light);
+}
+
+
+
 .program_img {
     width: 38px;
+}
+
+.exercises_img {
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.exercises_shape {
+    width: 100%;
+    height: auto;
+    display: grid;
+    place-items: center;
+    margin-bottom: 1rem;
+    transition: background .5s;
+}
+
+.flex { 
+        display: flex;
+        align-items: center;
 }
 
 .program_shape {
@@ -405,6 +442,8 @@ img {
     place-items: center;
     margin-bottom: 1rem;
     transition: background .5s;
+    flex-shrink: 0;
+    margin-right: 30px;
 }
 
 .program_title {
@@ -430,6 +469,7 @@ img {
     color: var(--title-color-black);
     opacity: 0;
     transition: opacity .4s;
+    margin-left: 8px;
 }
 
 .program_button i {
