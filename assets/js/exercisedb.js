@@ -13,7 +13,7 @@ $(document).ready(function() {
             method: 'GET',
             headers: {
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
-                'X-RapidAPI-Key': ''
+                'X-RapidAPI-Key': '7aa077f2b9msh45774d4728e2637p1ec486jsn783fc858bb17'
             }
         });
     }
@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: {
                 lat: lat,
                 lon: lon,
-                appid: '',
+                appid: 'e7a622538715dc590c381df263f61828',
                 units: 'metric'
             }
         });
@@ -60,50 +60,35 @@ $(document).ready(function() {
         if (suitableExercises.length === 0) {
             $('#exercises').html('<p>No suitable exercises found for the current temperature.</p>');
         } else {
-            // Iterate over suitable exercises and alternate their display
+            // Filter exercises for the "waist" category
+            suitableExercises = suitableExercises.filter(exercise => {
+                return exercise.bodyPart.toLowerCase().includes('waist');
+            });
+
+            // Create rows for the exercises
+            let row;
             suitableExercises.forEach(function(exercise, index) {
-                if (index > 0) {
-                    $('#exercises').append('<hr>'); // Add a horizontal line between exercises
+                if (index % 4 === 0) {
+                    row = $('<div class="row exercise-row mb-4"></div>');
+                    $('#exercises').append(row);
                 }
 
-                // Determine image and description placement based on index
-                if (index % 2 === 0) {
-                    // Even index: image on the left, details on the right
-                    $('#exercises').append(`
-                        <div class="row exercise-row">
-                            <div class="col-md-6">
-                                <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img">
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${exercise.name}</h5>
-                                        <p class="card-text">Target Muscle: ${exercise.target}</p>
-                                        <p class="card-text">Equipment: ${exercise.equipment}</p>
-                                    </div>
-                                </div>
+                const exerciseName = exercise.name.replace(/\b\w/g, char => char.toUpperCase());
+
+                const col = $(`
+                    <div class="col-md-3">
+                        <div class="card h-100">
+                            <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">${exerciseName}</h5>
+                                <p class="card-text"><strong>Target Muscle:</strong> ${exercise.target}</p>
+                                <p class="card-text"><strong>Equipment:</strong> ${exercise.equipment}</p>
+                                <p class="card-text"><strong>Body Part:</strong> ${exercise.bodyPart}</p>
                             </div>
                         </div>
-                    `);
-                } else {
-                    // Odd index: image on the right, details on the left
-                    $('#exercises').append(`
-                        <div class="row exercise-row">
-                            <div class="col-md-6 order-md-2">
-                                <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img">
-                            </div>
-                            <div class="col-md-6 order-md-1">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${exercise.name}</h5>
-                                        <p class="card-text">Target Muscle: ${exercise.target}</p>
-                                        <p class="card-text">Equipment: ${exercise.equipment}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                }
+                    </div>
+                `);
+                row.append(col);
             });
         }
     }
@@ -116,7 +101,9 @@ $(document).ready(function() {
 
             $.when(fetchExercises(), fetchWeather(lat, lon)).done(function(exercisesResponse, weatherResponse) {
                 var exercises = exercisesResponse[0];
-                var temperature = weatherResponse[0].main.temp;
+                var temperature = Math.round(weatherResponse[0].main.temp);
+                var tempMin = Math.round(weatherResponse[0].main.temp_min);
+                var tempMax = Math.round(weatherResponse[0].main.temp_max);
                 var weatherDescription = weatherResponse[0].weather[0].description;
 
                 // Capitalize first letter of weather description
@@ -126,15 +113,21 @@ $(document).ready(function() {
 
                 $('#weather').html(`
                     <div class="weather-container">
-                        <div class="weather-icon">
-                            <i class="wi ${getWeatherIconClass(weatherResponse[0].weather[0].icon)}"></i>
-                        </div>
+
                         <div class="weather-info">
-                            <div class="alert alert-info">
+                            <div class="alert alert-info" style="float:left;">
                                 <h4>${weatherResponse[0].name}</h4>
-                                <p>${weatherDescription}</p>
-                                <p>Temperature: ${temperature}°C</p>
-                                <p>Min: ${weatherResponse[0].main.temp_min}°C | Max: ${weatherResponse[0].main.temp_max}°C</p>
+                                <p>${weatherResponse[0].sys.country}</p>
+                            </div>
+                            <div style="float:right;">
+                                <div style="float:left;">
+                                    <p>${weatherDescription}</p>
+                                    <p class="temperature">${temperature}°C</p>
+                                    <p>Min: ${tempMin}°C | Max: ${tempMax}°C</p>
+                                </div>
+                                <div class="weather-icon" style="float:right;">
+                                    <i class="wi ${getWeatherIconClass(weatherResponse[0].weather[0].icon)}"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
