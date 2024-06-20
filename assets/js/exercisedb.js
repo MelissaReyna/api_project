@@ -13,7 +13,7 @@ $(document).ready(function() {
             method: 'GET',
             headers: {
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
-                'X-RapidAPI-Key': '7aa077f2b9msh45774d4728e2637p1ec486jsn783fc858bb17'
+                'X-RapidAPI-Key': ''
             }
         });
     }
@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: {
                 lat: lat,
                 lon: lon,
-                appid: 'e7a622538715dc590c381df263f61828',
+                appid: '',
                 units: 'metric'
             }
         });
@@ -65,10 +65,10 @@ $(document).ready(function() {
                 return exercise.bodyPart.toLowerCase().includes('waist');
             });
 
-            // Create rows for the exercises
+            // Create rows for the exercises, three exercises per row
             let row;
             suitableExercises.forEach(function(exercise, index) {
-                if (index % 4 === 0) {
+                if (index % 3 === 0) {
                     row = $('<div class="row exercise-row mb-4"></div>');
                     $('#exercises').append(row);
                 }
@@ -76,7 +76,7 @@ $(document).ready(function() {
                 const exerciseName = exercise.name.replace(/\b\w/g, char => char.toUpperCase());
 
                 const col = $(`
-                    <div class="col-md-3">
+                    <div class="col-md-4 mb-3">
                         <div class="card h-100">
                             <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img-top">
                             <div class="card-body">
@@ -113,7 +113,6 @@ $(document).ready(function() {
 
                 $('#weather').html(`
                     <div class="weather-container">
-
                         <div class="weather-info">
                             <div class="alert alert-info" style="float:left;">
                                 <h4>${weatherResponse[0].name}</h4>
