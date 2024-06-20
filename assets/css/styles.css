@@ -108,7 +108,7 @@ img {
 }
 
 .section {
-    padding: 4.5rem 0 2rem;
+    padding: 4.5rem 2rem !important;
 }
 
 .section_data {
@@ -698,6 +698,39 @@ img {
 .exercises_img {
     /* width: 200px; */
     justify-self: center;
+}
+
+
+/* =============== FOOD CALCULATOR =============== */
+.food-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.food-item input[type="text"] {
+    flex: 2;
+    min-width: 110px; 
+    margin-right: 10px;
+}
+
+.food-item input[type="number"] {
+    flex: 1;
+    min-width: 50px;
+    margin-right: 10px;
+}
+
+.add-food {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.total-calories {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 
