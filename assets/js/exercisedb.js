@@ -13,7 +13,7 @@ $(document).ready(function() {
             method: 'GET',
             headers: {
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
-                'X-RapidAPI-Key': ''
+                'X-RapidAPI-Key': 'API_KEY'
             }
         });
     }
@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: {
                 lat: lat,
                 lon: lon,
-                appid: '',
+                appid: 'API_KEY',
                 units: 'metric'
             }
         });
