@@ -100,7 +100,7 @@ const sr = ScrollReveal({
 /* Implemented Scroll Reveal animations for various elements */
 sr.reveal(`.home_data, .footer_container, .footer_group`)
 sr.reveal(`.home_img`, { delay: 700, origin: 'bottom' })
-sr.reveal(`.program_card, .pricing_card`, { interval: 100 })
+sr.reveal(`.program_card, .program_card2, .pricing_card`, { interval: 100 })
 sr.reveal(`.exercises_content`, { origin: 'left' })
 sr.reveal(`.exercises_img`, { origin: 'right' })
 
