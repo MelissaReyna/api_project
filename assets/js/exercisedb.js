@@ -13,7 +13,7 @@ $(document).ready(function() {
             method: 'GET',
             headers: {
                 'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
-                'X-RapidAPI-Key': 'API_KEY'
+                'X-RapidAPI-Key': ''
             }
         });
     }
@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: {
                 lat: lat,
                 lon: lon,
-                appid: 'API_KEY',
+                appid: '',
                 units: 'metric'
             }
         });
@@ -60,15 +60,50 @@ $(document).ready(function() {
         if (suitableExercises.length === 0) {
             $('#exercises').html('<p>No suitable exercises found for the current temperature.</p>');
         } else {
-            suitableExercises.forEach(function(exercise) {
-                $('#exercises').append(`
-                    <div class="card">
-                        <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img">
-                        <h5 class="card-title">${exercise.name}</h5>
-                        <p class="card-text">Target Muscle: ${exercise.target}</p>
-                        <p class="card-text">Equipment: ${exercise.equipment}</p>
-                    </div>
-                `);
+            // Iterate over suitable exercises and alternate their display
+            suitableExercises.forEach(function(exercise, index) {
+                if (index > 0) {
+                    $('#exercises').append('<hr>'); // Add a horizontal line between exercises
+                }
+
+                // Determine image and description placement based on index
+                if (index % 2 === 0) {
+                    // Even index: image on the left, details on the right
+                    $('#exercises').append(`
+                        <div class="row exercise-row">
+                            <div class="col-md-6">
+                                <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${exercise.name}</h5>
+                                        <p class="card-text">Target Muscle: ${exercise.target}</p>
+                                        <p class="card-text">Equipment: ${exercise.equipment}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                } else {
+                    // Odd index: image on the right, details on the left
+                    $('#exercises').append(`
+                        <div class="row exercise-row">
+                            <div class="col-md-6 order-md-2">
+                                <img src="${exercise.gifUrl}" alt="${exercise.name}" class="card-img">
+                            </div>
+                            <div class="col-md-6 order-md-1">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${exercise.name}</h5>
+                                        <p class="card-text">Target Muscle: ${exercise.target}</p>
+                                        <p class="card-text">Equipment: ${exercise.equipment}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                }
             });
         }
     }
@@ -81,16 +116,27 @@ $(document).ready(function() {
 
             $.when(fetchExercises(), fetchWeather(lat, lon)).done(function(exercisesResponse, weatherResponse) {
                 var exercises = exercisesResponse[0];
-                console.log('Fetched Exercises:', exercises);  // Log the fetched exercises
                 var temperature = weatherResponse[0].main.temp;
-                console.log('Current Temperature:', temperature);  // Log the current temperature
+                var weatherDescription = weatherResponse[0].weather[0].description;
+
+                // Capitalize first letter of weather description
+                weatherDescription = weatherDescription.charAt(0).toUpperCase() + weatherDescription.slice(1);
+
                 displayExercises(exercises, temperature);
 
                 $('#weather').html(`
-                    <div class="alert alert-info">
-                        <h4>${weatherResponse[0].name}</h4>
-                        <p>${weatherResponse[0].weather[0].description}</p>
-                        <p>Temperature: ${temperature}°C</p>
+                    <div class="weather-container">
+                        <div class="weather-icon">
+                            <i class="wi ${getWeatherIconClass(weatherResponse[0].weather[0].icon)}"></i>
+                        </div>
+                        <div class="weather-info">
+                            <div class="alert alert-info">
+                                <h4>${weatherResponse[0].name}</h4>
+                                <p>${weatherDescription}</p>
+                                <p>Temperature: ${temperature}°C</p>
+                                <p>Min: ${weatherResponse[0].main.temp_min}°C | Max: ${weatherResponse[0].main.temp_max}°C</p>
+                            </div>
+                        </div>
                     </div>
                 `);
             }).fail(function(err) {
@@ -104,5 +150,43 @@ $(document).ready(function() {
     } else {
         console.error('Geolocation is not supported by this browser.');
         $('#weather').html('<p class="alert alert-danger">Geolocation is not supported by this browser.</p>');
+    }
+
+    // Function to map OpenWeatherMap icon codes to Weather Icons class names
+    function getWeatherIconClass(iconCode) {
+        switch (iconCode) {
+            case '01d':
+                return 'wi-day-sunny'; // clear sky day
+            case '01n':
+                return 'wi-night-clear'; // clear sky night
+            case '02d':
+                return 'wi-day-cloudy'; // few clouds day
+            case '02n':
+                return 'wi-night-cloudy'; // few clouds night
+            case '03d':
+            case '03n':
+                return 'wi-cloud'; // scattered clouds
+            case '04d':
+            case '04n':
+                return 'wi-cloudy'; // broken clouds
+            case '09d':
+            case '09n':
+                return 'wi-showers'; // shower rain
+            case '10d':
+                return 'wi-day-rain'; // rain day
+            case '10n':
+                return 'wi-night-rain'; // rain night
+            case '11d':
+            case '11n':
+                return 'wi-thunderstorm'; // thunderstorm
+            case '13d':
+            case '13n':
+                return 'wi-snow'; // snow
+            case '50d':
+            case '50n':
+                return 'wi-fog'; // mist
+            default:
+                return 'wi-na'; // Not available
+        }
     }
 });
