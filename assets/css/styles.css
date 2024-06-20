@@ -735,6 +735,10 @@ img {
 
 /* =============== WEATHER =============== */
 
+#weather{
+    padding-top: 20px;
+}
+
 .weather-container {
     display: flex;
     align-items: center;
@@ -754,6 +758,15 @@ img {
     background-color: var(--body-color);
     border: var(--body-color);
     color: white;
+}
+
+.card-title{
+    color: var(--second-color);
+}
+
+.temperature{
+    font-size:200%;
+    font-weight:bold;
 }
 
 /* =============== FOOTER =============== */
