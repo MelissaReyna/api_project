@@ -733,6 +733,28 @@ img {
     font-weight: bold;
 }
 
+/* =============== WEATHER =============== */
+
+.weather-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+.weather-icon {
+    font-size: 4rem; /* Adjust icon size as needed */
+    margin-right: 20px; /* Adjust margin between icon and info */
+}
+
+.weather-info {
+    flex: 1; /* Take remaining space */
+}
+
+.alert-info{
+    background-color: var(--body-color);
+    border: var(--body-color);
+    color: white;
+}
 
 /* =============== FOOTER =============== */
 .footer_container {
